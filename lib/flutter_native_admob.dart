@@ -67,7 +67,10 @@ class _NativeAdmobState extends State<NativeAdmob> {
       });
     });
 
-    Future.delayed(Duration(milliseconds: 30),
+    Future.delayed(Duration(milliseconds: 600),
+        () => _viewKey.currentState?.setState(() {}));
+
+    Future.delayed(Duration(milliseconds: 1200),
         () => _viewKey.currentState?.setState(() {}));
 
     super.initState();
