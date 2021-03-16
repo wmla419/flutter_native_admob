@@ -58,13 +58,17 @@ class _NativeAdmobState extends State<NativeAdmob> {
   @override
   void initState() {
     _nativeAdController = widget.controller ?? NativeAdmobController();
-    _nativeAdController.setAdUnitID(widget.adUnitID, numberAds: widget.numberAds);
+    _nativeAdController.setAdUnitID(widget.adUnitID,
+        numberAds: widget.numberAds);
 
     _subscription = _nativeAdController.stateChanged.listen((state) {
       setState(() {
         _loadState = state;
       });
     });
+
+    Future.delayed(Duration(milliseconds: 30),
+        () => _viewKey.currentState?.setState(() {}));
 
     super.initState();
   }
@@ -93,6 +97,8 @@ class _NativeAdmobState extends State<NativeAdmob> {
     return Text('$defaultTargetPlatform is not supported PlatformView yet.');
   }
 
+  final _viewKey = GlobalKey();
+
   Widget _createPlatformView() {
     final creationParams = {
       "options": _options.toJson(),
@@ -102,11 +108,13 @@ class _NativeAdmobState extends State<NativeAdmob> {
 
     return isAndroid
         ? AndroidView(
+            key: _viewKey,
             viewType: _viewType,
             creationParamsCodec: StandardMessageCodec(),
             creationParams: creationParams,
           )
         : UiKitView(
+            key: _viewKey,
             viewType: _viewType,
             creationParamsCodec: StandardMessageCodec(),
             creationParams: creationParams,
