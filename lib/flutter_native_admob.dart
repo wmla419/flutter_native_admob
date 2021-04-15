@@ -45,7 +45,7 @@ class _NativeAdmobState extends State<NativeAdmob> {
   late NativeAdmobController _nativeAdController;
 
   NativeAdmobOptions get _options => widget.options ?? NativeAdmobOptions();
-  NativeAdmobType get _type => widget.type ?? NativeAdmobType.full;
+  NativeAdmobType get _type => widget.type;
 
   Widget get _loading =>
       widget.loading ?? Center(child: CircularProgressIndicator());
