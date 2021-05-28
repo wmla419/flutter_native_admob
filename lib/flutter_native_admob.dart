@@ -14,7 +14,7 @@ enum NativeAdmobType { banner, full }
 class NativeAdmob extends StatefulWidget {
   final String adUnitID;
   final NativeAdmobOptions? options;
-  final NativeAdmobType type;
+  final NativeAdmobType? type;
   final int numberAds;
 
   final Widget? loading;
@@ -45,7 +45,7 @@ class _NativeAdmobState extends State<NativeAdmob> {
   late NativeAdmobController _nativeAdController;
 
   NativeAdmobOptions get _options => widget.options ?? NativeAdmobOptions();
-  NativeAdmobType get _type => widget.type;
+  NativeAdmobType get _type => widget.type!;
 
   Widget get _loading =>
       widget.loading ?? Center(child: CircularProgressIndicator());

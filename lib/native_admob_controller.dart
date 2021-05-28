@@ -79,7 +79,7 @@ class NativeAdmobController {
     });
   }
 
-  void setTestDeviceIds(List<String> ids) {
+  void setTestDeviceIds(List<String>? ids) {
     if (ids == null || ids.isEmpty) return;
 
     _pluginChannel.invokeMethod("setTestDeviceIds", {
