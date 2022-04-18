@@ -2,7 +2,6 @@ package com.nover.flutternativeadmob
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import com.google.ads.mediation.admob.AdMobAdapter
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
@@ -54,8 +53,8 @@ class NativeAdmobController(
             adLoader = builder.forNativeAd { nativeAd ->
               this.nativeAd = nativeAd
             }.withAdListener(object : AdListener() {
-              override fun onAdFailedToLoad(error: LoadAdError) {
-                println("onAdFailedToLoad errorCode = ${error.code}")
+              override fun onAdFailedToLoad(p0: LoadAdError) {
+                println("onAdFailedToLoad errorCode = ${p0.code}")
                 channel.invokeMethod(LoadState.loadError.toString(), null)
               }
             }).build()

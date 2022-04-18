@@ -3,11 +3,11 @@ package com.nover.flutternativeadmob
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
+import com.google.android.gms.ads.nativead.MediaView
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
 
@@ -32,7 +32,7 @@ class NativeAdView @JvmOverloads constructor(
 
   private val ratingBar: RatingBar
 
-  private var adMedia: com.google.android.gms.ads.nativead.MediaView?
+  private val adMedia: MediaView?
 
   private val adHeadline: TextView
   private val adAdvertiser: TextView
@@ -91,7 +91,7 @@ class NativeAdView @JvmOverloads constructor(
     if (nativeAd == null) return
 
     // Some assets are guaranteed to be in every UnifiedNativeAd.
-    adMedia?.setMediaContent(nativeAd.mediaContent)
+    nativeAd.mediaContent?.let { adMedia?.setMediaContent(it) }
     adMedia?.setImageScaleType(ImageView.ScaleType.FIT_CENTER)
 
     adHeadline.text = nativeAd.headline
@@ -103,10 +103,14 @@ class NativeAdView @JvmOverloads constructor(
     val icon = nativeAd.icon
 
     if (icon == null) {
-      adView.iconView?.visibility = View.GONE
+      adView.iconView?.let {
+        it.visibility = View.GONE
+      }
     } else {
       (adView.iconView as ImageView).setImageDrawable(icon.drawable)
-      adView.iconView?.visibility = View.VISIBLE
+      adView.iconView?.let {
+        it.visibility = View.VISIBLE
+      }
     }
 
     if (nativeAd.price == null) {
@@ -123,10 +127,14 @@ class NativeAdView @JvmOverloads constructor(
     }
 
     if (nativeAd.starRating == null) {
-      adView.starRatingView?.visibility = View.INVISIBLE
+      adView.starRatingView?.let {
+        it.visibility = View.INVISIBLE
+      }
     } else {
       (adView.starRatingView as RatingBar).rating = nativeAd.starRating!!.toFloat()
-      adView.starRatingView?.visibility = View.VISIBLE
+      adView.starRatingView?.let{
+        it.visibility = View.VISIBLE
+      }
     }
 
     if (nativeAd.advertiser == null) {
@@ -154,67 +162,31 @@ class NativeAdView @JvmOverloads constructor(
     adAttribution.textSize = options.adLabelTextStyle.fontSize
     adAttribution.setTextColor(options.adLabelTextStyle.color)
     adAdvertiser.visibility = options.adLabelTextStyle.visibility
-    options.adLabelTextStyle.androidTypeface?.let { t ->
-      adAttribution.typeface = Typeface.createFromAsset(
-              context.assets, t
-      )
-    }
 
     adHeadline.setTextColor(options.headlineTextStyle.color)
     adHeadline.textSize = options.headlineTextStyle.fontSize
     adHeadline.visibility = options.headlineTextStyle.visibility
-    options.headlineTextStyle.androidTypeface?.let { t ->
-      adHeadline.typeface = Typeface.createFromAsset(
-              context.assets, t
-      )
-    }
 
     adAdvertiser.setTextColor(options.advertiserTextStyle.color)
     adAdvertiser.textSize = options.advertiserTextStyle.fontSize
     adAdvertiser.visibility = options.advertiserTextStyle.visibility
-    options.advertiserTextStyle.androidTypeface?.let { t ->
-      adAdvertiser.typeface = Typeface.createFromAsset(
-              context.assets, t
-      )
-    }
-
 
     adBody?.setTextColor(options.bodyTextStyle.color)
     adBody?.textSize = options.bodyTextStyle.fontSize
     adBody?.visibility = options.bodyTextStyle.visibility
-    options.bodyTextStyle.androidTypeface?.let { t ->
-      adBody?.typeface = Typeface.createFromAsset(
-              context.assets, t
-      )
-    }
 
     adStore?.setTextColor(options.storeTextStyle.color)
     adStore?.textSize = options.storeTextStyle.fontSize
     adStore?.visibility = options.storeTextStyle.visibility
-    options.storeTextStyle.androidTypeface?.let { t ->
-      adStore?.typeface = Typeface.createFromAsset(
-              context.assets, t
-      )
-    }
 
     adPrice?.setTextColor(options.priceTextStyle.color)
     adPrice?.textSize = options.priceTextStyle.fontSize
     adPrice?.visibility = options.priceTextStyle.visibility
-    options.priceTextStyle.androidTypeface?.let { t ->
-      adPrice?.typeface = Typeface.createFromAsset(
-              context.assets, t
-      )
-    }
 
     callToAction.setTextColor(options.callToActionStyle.color)
     callToAction.textSize = options.callToActionStyle.fontSize
     options.callToActionStyle.backgroundColor?.let {
       callToAction.setBackgroundColor(it)
-    }
-    options.callToActionStyle.androidTypeface?.let { t ->
-      callToAction.typeface = Typeface.createFromAsset(
-              context.assets, t
-      )
     }
   }
 }
